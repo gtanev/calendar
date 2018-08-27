@@ -1,8 +1,92 @@
+:root {
+    --main-accent-color: seagreen;
+    --secondary-accent-color: DarkSeaGreen;
+}
+
 body {
-    background: #ccc;
+    position: relative;
+    font-family: 'Open Sans', 'Lucida Sans', sans-serif;
 }
 
 #container {
-    margin: auto;
-    background: white;
+    display: table;
+    margin: 0 auto;
+    padding: 0;
+    width: fit-content;
+}
+
+#timeline {
+    float: left;
+    text-align: right;
+    font-size: smaller;
+}
+
+#timeline span {
+    font-weight: bold;
+    font-size: initial;
+}
+
+#event-area {
+    background-color: whitesmoke;
+    float: left;
+    width: 600px;
+    height: 720px;
+    position: relative;
+    margin: auto 10px;
+}
+
+.event {
+    position: absolute;
+    background-color: white;
+    padding: 6px 6px 6px 12px;
+    overflow: hidden;
+    font-size: smaller;
+    border: 1px solid var(--main-accent-color);
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+.event:hover {
+    cursor: pointer;
+    z-index: 1;
+    background-color: whitesmoke;
+    overflow: auto;
+    min-width: fit-content;
+}
+
+.event::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-left: 4px solid var(--main-accent-color);
+}
+
+.event strong {
+    color: var(--main-accent-color);
+    font-size: initial;
+}
+
+.event strong::after {
+    content: '\A';
+    white-space: pre;
+}
+
+#dial {
+    height: 1px;
+    background-color: transparent;
+    transition: background-color 0.2s ease-in;
+    position: absolute;
+    z-index: -1;
+}
+
+#marker  {
+    background-color: var(--secondary-accent-color);
+    opacity: 0.25;
+    transition: all 0.2s ease-in;
+    position: absolute;
+    z-index: -1;
 }
