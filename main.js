@@ -10,12 +10,12 @@ for (let i = 9; i <= 21; i++) {
     const hour = i > 12 ? i - 12 : i;
     const period = i >= 12 ? 'PM' : 'AM';
 
-    for(let j = 0; j <= 1; j++) {
-        if(i === 21 && j === 1) continue;
+    for (let j = 0; j <= 1; j++) {
+        if (i === 21 && j === 1) continue;
 
         let div = document.createElement('div');
 
-        if(j === 0)
+        if (j === 0)
             div.innerHTML = `<span>` + hour + minuteMarkings[j] + `</span>` + ' ' + period;
         else
             div.innerHTML = hour + minuteMarkings[j];
@@ -28,7 +28,7 @@ for (let i = 9; i <= 21; i++) {
     }
 }
 
-dial.style.width = document.getElementById('container').clientWidth  + 'px';
+dial.style.width = document.getElementById('container').clientWidth + 'px';
 marker.style.width = document.getElementById('timeline').clientWidth + 'px';
 
 eventArea.style.marginTop = labelHeight / 2 + 'px';
