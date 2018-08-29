@@ -1,72 +1,80 @@
 :root {
-    --main-accent-color: seagreen;
-    --secondary-accent-color: DarkSeaGreen;
+    --canvas-color: #F0F0F0;
+    --primary-accent-color: seagreen;
+    --secondary-accent-color: floralwhite;
 }
 
 body {
+    font-family: 'Lucida Sans', sans-serif;
     position: relative;
-    font-family: 'Open Sans', 'Lucida Sans', sans-serif;
 }
 
 #container {
     display: table;
     margin: 0 auto;
-    padding: 0;
     width: fit-content;
 }
 
 #timeline {
     float: left;
-    text-align: right;
     font-size: smaller;
+    padding: 0 5px;
+    text-align: right;
 }
 
 #timeline span {
-    font-weight: bold;
     font-size: initial;
+    font-weight: bold;
 }
 
 #event-area {
-    background-color: whitesmoke;
+    background-image: repeating-linear-gradient(
+            to top,
+            var(--canvas-color),
+            var(--canvas-color) 29px,
+            white 1px,
+            white
+    );
+    background-size: 100% 30px;
     float: left;
-    width: 600px;
     height: 720px;
-    position: relative;
     margin: auto 10px;
+    position: relative;
+    width: 600px;
 }
 
 .event {
-    position: absolute;
     background-color: white;
-    padding: 6px 6px 6px 12px;
-    overflow: hidden;
-    font-size: smaller;
-    border: 1px solid var(--main-accent-color);
+    border: 1px solid var(--primary-accent-color);
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
+    font-size: smaller;
+    overflow: hidden;
+    position: absolute;
+    padding: 6px 6px 6px 12px;
 }
 
 .event:hover {
+    background-color: var(--secondary-accent-color);
     cursor: pointer;
-    z-index: 1;
-    background-color: whitesmoke;
-    overflow: auto;
     min-width: fit-content;
+    overflow: auto;
+    z-index: 1;
 }
 
 .event::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
+    border-left: 4px solid var(--primary-accent-color);
     bottom: 0;
+    content: '';
     left: 0;
-    border-left: 4px solid var(--main-accent-color);
+    position: absolute;
+    right: 0;
+    top: 0;
 }
 
 .event strong {
-    color: var(--main-accent-color);
+    color: var(--primary-accent-color);
     font-size: initial;
 }
 
@@ -76,17 +84,21 @@ body {
 }
 
 #dial {
-    height: 1px;
     background-color: transparent;
-    transition: background-color 0.2s ease-in;
+    height: 1px;
     position: absolute;
+    transition: background-color 0.2s ease-in;
     z-index: -1;
 }
 
-#marker  {
-    background-color: var(--secondary-accent-color);
-    opacity: 0.25;
-    transition: all 0.2s ease-in;
+#marker {
+    background-color: var(--canvas-color);
+    border-left: 1px black solid;
+    border-right: 1px black solid;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
     position: absolute;
+    transition: all 0.2s ease-in;
     z-index: -1;
 }
