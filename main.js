@@ -2,9 +2,10 @@ const container = document.getElementById('container');
 const eventArea = document.getElementById('event-area');
 const dial = document.getElementById('dial');
 const marker = document.getElementById('marker');
+const timeline = document.getElementById('timeline');
 
 const labelHeight = document.getElementById('container').clientHeight / 24;
-const minuteMarkings = [':00', ':30'];
+const minutes = ['00', '30'];
 
 for (let i = 9; i <= 21; i++) {
     const hour = i > 12 ? i - 12 : i;
@@ -16,31 +17,33 @@ for (let i = 9; i <= 21; i++) {
         let div = document.createElement('div');
 
         if (j === 0)
-            div.innerHTML = `<span>` + hour + minuteMarkings[j] + `</span>` + ' ' + period;
+            div.innerHTML = `<span>${hour}:${minutes[j]}</span> ${period}`;
         else
-            div.innerHTML = hour + minuteMarkings[j];
+            div.innerHTML = `${hour}:${minutes[j]}`;
 
-        div.style.minHeight = labelHeight + 'px';
-        div.style.maxHeight = labelHeight + 'px';
-        div.style.lineHeight = labelHeight + 'px';
+        div.style.lineHeight = div.style.minHeight = div.style.maxHeight = labelHeight + 'px';
 
-        document.getElementById('timeline').appendChild(div);
+        timeline.appendChild(div);
     }
 }
 
-dial.style.width = document.getElementById('container').clientWidth + 'px';
-marker.style.width = document.getElementById('timeline').clientWidth + 'px';
+dial.style.marginLeft = marker.style.width = timeline.clientWidth + 'px';
+dial.style.width = container.clientWidth - timeline.clientWidth + 'px';
 
-eventArea.style.marginTop = labelHeight / 2 + 'px';
-marker.style.marginTop = labelHeight / 2 + 'px';
+eventArea.style.marginTop = marker.style.marginTop = labelHeight / 2 + 'px';
 
 container.addEventListener('mousemove', (mouseEvent) => {
     dial.style.top = document.documentElement.scrollTop + mouseEvent.clientY - 10 + 'px';
 
     let eventBox = document.elementFromPoint(mouseEvent.clientX, mouseEvent.clientY);
 
-    marker.style.top = eventBox.style.top;
-    marker.style.height = eventBox.style.height;
+    if (eventBox.className === 'event') {
+        marker.style.top = eventBox.style.top;
+        marker.style.height = eventBox.style.height;
+    } else {
+        marker.style.top = dial.style.top;
+        marker.style.height = '0px';
+    }
 });
 
 container.addEventListener('mouseleave', (_) => {
@@ -48,5 +51,5 @@ container.addEventListener('mouseleave', (_) => {
 });
 
 container.addEventListener('mouseenter', (_) => {
-    dial.style.backgroundColor = 'var(--main-accent-color)';
+    dial.style.backgroundColor = 'black';
 });
