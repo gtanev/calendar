@@ -82,20 +82,19 @@ getOffset = (event, groups) => {
 renderEvents = (events) => {
     [...document.querySelectorAll('.event')].forEach(e => e.remove());
 
+    const availableWidth = document.getElementById('event-area').clientWidth;
+
     for (event of events) {
         const div = document.createElement('div');
-        const width = document.getElementById('event-area').clientWidth * event.width;
-        const left = document.getElementById('event-area').clientWidth * event.left;
 
         div.className = 'event';
 
-        div.style.top = event.start + 'px';
-        div.style.height = event.end - event.start + 'px';
-        div.style.left = left + 'px';
-        div.style.width = width + 'px';
+        div.style.top = `${event.start}px`;
+        div.style.height = `${event.end - event.start}px`;
+        div.style.left = `${availableWidth * event.left}px`;
+        div.style.width = `${availableWidth * event.width}px`;
 
-        div.innerHTML = `<strong>` + event.description + `</strong>`;
-        div.innerHTML += event.location;
+        div.innerHTML = `<strong>${event.description}</strong>${event.location}`;
 
         document.getElementById('event-area').appendChild(div);
     }
