@@ -1,5 +1,5 @@
 function layOutDay(events) {
-    events = castToEventArray(events);
+    events = events.map(objectToEvent);
     arrangeEvents(events);
     renderEvents(events);
 }
@@ -31,19 +31,19 @@ class Event {
 
     static validateArguments(start, end) {
         if (!Number.isInteger(start) || !Number.isInteger(end))
-            throw new Error('`start` and `end` parameters must be valid integer values');
+            throw new Error('`start` and `end` parameters must be valid integers');
         if (end <= start)
             throw new Error('`end` parameter must be larger than `start` parameter');
     }
 }
 
-castToEventArray = (objectArray) => {
-    return objectArray.map(e => new Event(e.start, e.end)
-        .withDescription(e.description)
-        .withLocation(e.location));
+const objectToEvent = (object) => {
+    return new Event(object.start, object.end)
+        .withDescription(object.description)
+        .withLocation(object.location);
 };
 
-arrangeEvents = (events) => {
+const arrangeEvents = (events) => {
     if (!events.length) return;
 
     events.sort(Event.comparePrecedence);
@@ -58,16 +58,16 @@ arrangeEvents = (events) => {
     positionEvents(groups);
 };
 
-positionEvents = (groups) => {
+const positionEvents = (groups) => {
     for (let i = 0; i < groups.length; i++) {
         for (let event of groups[i]) {
-            event.left = i / groups.length;
-            event.width = getOffset(event, groups.slice(i + 1)) / groups.length;
+            event.position = i / groups.length;
+            event.span = getOffset(event, groups.slice(i + 1)) / groups.length;
         }
     }
 };
 
-getOffset = (event, groups) => {
+const getOffset = (event, groups) => {
     let offset = 1;
 
     for (let group of groups) {
@@ -79,20 +79,20 @@ getOffset = (event, groups) => {
     return offset;
 };
 
-renderEvents = (events) => {
-    [...document.querySelectorAll('.event')].forEach(e => e.remove());
+const renderEvents = (events) => {
+    Array.from(document.querySelectorAll('.event')).forEach(e => e.remove());
 
     const availableWidth = document.getElementById('event-area').clientWidth;
 
-    for (event of events) {
+    for (let event of events) {
         const div = document.createElement('div');
 
         div.className = 'event';
 
         div.style.top = `${event.start}px`;
         div.style.height = `${event.end - event.start}px`;
-        div.style.left = `${availableWidth * event.left}px`;
-        div.style.width = `${availableWidth * event.width}px`;
+        div.style.left = `${availableWidth * event.position}px`;
+        div.style.width = `${availableWidth * event.span}px`;
 
         div.innerHTML = `<strong>${event.description}</strong>${event.location}`;
 
