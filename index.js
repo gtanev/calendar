@@ -49,13 +49,20 @@ const arrangeEvents = (events) => {
     events.sort(Event.comparePrecedence);
 
     let groups = [];
+    let lastEnd = 0;
 
-    for (let event of events) {
-        let group = groups.find(g => !g[g.length - 1].overlapsWith(event));
-        group ? group.push(event) : groups.push(new Array(event));
+    for (let i = 0; i < events.length; i++) {
+        let group = groups.find(g => !g[g.length - 1].overlapsWith(events[i]));
+        group ? group.push(events[i]) : groups.push(new Array(events[i]));
+
+        lastEnd = Math.max(events[i].end, lastEnd);
+
+        if (i === events.length - 1 || events[i + 1].start >= lastEnd) {
+            positionEvents(groups);
+            groups.length = 0;
+            lastEnd = 0;
+        }
     }
-
-    positionEvents(groups);
 };
 
 const positionEvents = (groups) => {
